@@ -64,15 +64,24 @@ To prepare the data for analysis, we followed these steps:
 
 The first few rows of this cleaned DataFrame are shown below, in which we have selected the most relevant columns to our analysis.
 
-| id     | name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | minutes | tags &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | n_ingredients | rating | calories | sodium | protein | satfat | total_fat | health_score |
-|--:-----|--:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--:------|--:---------------------------------------------------------------------------------------------------------------------------------------|--:------------|--:-----|--:-------|--:-----|--:------|--:-----|--:--------|--:-----------|
-| 275022 | impossible macaroni and cheese pie                                                                                                                                          | 50      | ['60-minutes-or-less', 'time-to-make', 'course...                                                                                        | 7             | 3.0    | 386.1    | -0.02  | 0.11    | 0.11   | 0.02      | 2.08         |
-| 275022 | impossible rhubarb pie                                                                                                                                                      | 55      | ['60-minutes-or-less', 'time-to-make', 'course...                                                                                        | 8             | 3.0    | 377.1    | -0.34  | -0.31   | -0.07  | -0.24     | 0.69         |
-| 275022 | impossible seafood pie                                                                                                                                                      | 45      | ['60-minutes-or-less', 'time-to-make', 'course...                                                                                        | 9             | 3.0    | 326.6    | 0.06   | 0.05    | 0.05   | -0.04     | 2.38         |
-| 275022 | paula deen s caramel apple cheesecake                                                                                                                                       | 45      | ['60-minutes-or-less', 'time-to-make', 'course...                                                                                        | 9             | 5.0    | 577.7    | -0.17  | -0.30   | 0.14   | 0.33      | 0.77         |
-| 275022 | midori poached pears                                                                                                                                                        | 25      | ['lactose', '30-minutes-or-less', 'time-to-mak...                                                                                        | 9             | 5.0    | 386.9    | -0.72  | -0.49   | -0.23  | -0.53     | 0.35         |
+| id     | name                                  | minutes | tags                                              | n_ingredients | rating | calories | sodium | protein | satfat | total_fat | health_score |
+|--:-----|--:------------------------------------|--:------|--:------------------------------------------------|--:------------|--:-----|--:-------|--:-----|--:------|--:-----|--:--------|--:-----------|
+| 275022 | impossible macaroni and cheese pie    | 50      | ['60-minutes-or-less', 'time-to-make', 'course... | 7             | 3.0    | 386.1    | -0.02  | 0.11    | 0.11   | 0.02      | 2.08         |
+| 275022 | impossible rhubarb pie                | 55      | ['60-minutes-or-less', 'time-to-make', 'course... | 8             | 3.0    | 377.1    | -0.34  | -0.31   | -0.07  | -0.24     | 0.69         |
+| 275022 | impossible seafood pie                | 45      | ['60-minutes-or-less', 'time-to-make', 'course... | 9             | 3.0    | 326.6    | 0.06   | 0.05    | 0.05   | -0.04     | 2.38         |
+| 275022 | paula deen s caramel apple cheesecake | 45      | ['60-minutes-or-less', 'time-to-make', 'course... | 9             | 5.0    | 577.7    | -0.17  | -0.30   | 0.14   | 0.33      | 0.77         |
+| 275022 | midori poached pears                  | 25      | ['lactose', '30-minutes-or-less', 'time-to-mak... | 9             | 5.0    | 386.9    | -0.72  | -0.49   | -0.23  | -0.53     | 0.35         |
 
 With this cleaned dataset, we are ready to analyze how the presence of seafood correlates with the health scoresand ratings of recipes.
 
 ### Univariate Analysis
 A
+
+### Bivariate Analysis
+For this analysis, we examined the average health score at each average rating for both recipes that did and did not include seafood. The graph below shows that  all recipes that were given an average rating of at least 1 had a higher health score when they contained seafood. 
+<iframe
+  src="assets/bivariate.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
