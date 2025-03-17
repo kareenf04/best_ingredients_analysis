@@ -135,6 +135,7 @@ We further examined whether the missingness in **`description`** is associated w
 
 - **Null Hypothesis:** The missingness of **`description`** does not depend on the **health score** of a recipe.
 - **Alternative Hypothesis:** The missingness of **`description`** does depend on the **health score** of a recipe.
+_Significance Level: 0.05_
 
 A permutation test was performed by comparing the mean health scores of recipes with missing descriptions to those with non-missing descriptions.
 
@@ -170,3 +171,60 @@ Another permutation test was conducted by shuffling the missingness of **`descri
 Again, since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that the presence of seafood in a recipe does not significantly influence whether its description is missing.
 
 Our analysis shows that the missing of **descriptions** appears to be random with respect to seafood presence and health score.
+
+
+## Hypothesis Testing  
+
+As mentioned in the introduction, we are investigating whether seafood recipes are healthier than non-seafood recipes and whether they receive higher ratings. We conducted two permutation tests to analyze these claims.
+
+### Health Score Comparison
+To examine whether seafood recipes are healthier than non-seafood recipes, we ran a permutation test with the following hypotheses:
+
+- **Null Hypothesis:** Seafood recipes are as healthy as non-seafood recipes. Any observed difference in health scores is due to random chance.
+- **Alternative Hypothesis:** Seafood recipes are healthier than non-seafood recipes.
+**Test Statistic:** The difference in median health scores between seafood and non-seafood recipes.
+_Significance Level: 0.05_
+
+The reason we chose to run a permutation test is because we do not have any information on the population, and we want to check if the two distributions look like they come from the same population.
+
+We proposed that seafood recipes differ in health score because of the study we are concerned with, and we would like to verify this using the recipes in our dataset, so we used the average health score.
+
+For the test statistic, we chose the difference in mean of the health scores instead of the absolute difference in mean. This is because we have a directional hypothesis — that seafood recipes are scored higher than other recipes. By looking at the difference in mean between the two groups, we can see what type of recipes typically have a higher health score, which answers our question.
+
+To run the test, we first split the data points into two groups: seafood recipes and non-seafood recipes. _The **observed statistic** was **4.9703**._
+
+Then, we shuffled the is_seafood labels 1000 times and recalculated the difference in mean health scores for each permutation. _We obtained a **p-value** of **0.000**._
+
+<iframe
+  src="assets/hyp1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+**Conclusion:** Since the p-value is less than 0.05, we reject the null hypothesis. This suggests that seafood recipes tend to be healthier than non-seafood recipes. While we confirm the claimed health benefits of seafood, we can also infer that recipes containing seafood maintain these benefits, even though they might include other ingredients with varying health factors.
+
+### Rating Comparison
+To investigate whether seafood recipes receive higher ratings than non-seafood recipes, we ran another permutation test with the following hypotheses:
+
+- **Null Hypothesis:** Seafood recipes are rated as highly as non-seafood recipes. Any observed difference in ratings is due to random chance.
+- **Alternative Hypothesis:** Seafood recipes are rated higher than non-seafood recipes.
+**Test Statistic:** The difference in mean ratings between seafood and non-seafood recipes.
+_Significance Level: 0.05_
+
+We proposed that people rate seafood recipes differently because people might be concerned with the health benefits related to the recipe. We would like to capture all opinions from users, so we used rating instead of an average rating that factors in taste.
+
+For the test statistic, we chose the difference in mean of the ratings of the two groups instead of the absolute difference in mean. This is because we have a directional hypothesis—that people rate seafood recipes higher than other recipes. By looking at the difference in mean between the two groups, we can see what type of recipes typically have a higher rating, which answers our question.
+
+We chose a permutation test because we do not assume normality in ratings and want to determine if the observed differences are due to random variation. Additionally, we dropped NaN ratings because they represented recipes that had no recorded ratings. Treating NaN as 0 would have skewed the analysis, introducing artificial outliers and misrepresenting the actual distribution of ratings.
+
+After shuffling the is_seafood labels 1000 times and computing the mean rating difference, we obtained a p-value of 0.171.
+
+<iframe
+  src="assets/hyp2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+**Conclusion:** Since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that seafood recipes are not rated significantly higher than non-seafood recipes, meaning any observed difference could be due to chance. Ratings depend on multiple factors, and while some users may prioritize taste, others may prioritize health benefits. As a result, ratings can vary significantly and may not necessarily reflect whether a recipe contains seafood.
