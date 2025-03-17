@@ -19,44 +19,47 @@ Understanding this relationship is important for both consumers seeking healthie
 The dataset consists of two main files:  
 
 - **RAW_recipes.csv** (83,782 rows) contains details about each recipe, including:  
-  - `'name'`: Name of the recipe  
-  - `'id'`: Unique identifier for each recipe  
-  - `'minutes'`: Preparation time  
-  - `'tags'`: List of tags associated with the recipe  
-  - `'nutrition'`: A list containing nutritional information:  
-    - Calories (#)  
+  - `name`: Name of the recipe  
+  - `id`: Unique identifier for each recipe  
+  - `minutes`: Preparation time  
+  - `tags`: List of tags associated with the recipe  
+  - `nutrition`: A list containing nutritional information:  
+    - Calories  
     - Total fat (PDV)  
     - Sugar (PDV)  
     - Sodium (PDV)  
     - Protein (PDV)  
     - Saturated fat (PDV)  
     - Carbohydrates (PDV)  
-  - `'description'`: A brief user-provided summary of the recipe  
+    N.B. Here PDV stands for 'percentage daily value' based on a 2,000 calorie intake.
+  - `description`: A brief user-provided summary of the recipe  
 
 - **RAW_interactions.csv** (731,927 rows) includes user ratings and reviews:  
-  - `'user_id'`: ID of the user who rated the recipe  
-  - `'recipe_id'`: ID of the rated recipe  
-  - `'rating'`: The score given by the user (ranging from 1 to 5)  
+  - `user_id`: ID of the user who rated the recipe  
+  - `recipe_id`: ID of the rated recipe  
+  - `rating`: The score given by the user (ranging from 1 to 5)  
 
 ### Data Cleaning and Preparation  
 
 To prepare the data for analysis, we followed these steps:  
 
 1. **Merged the Recipes and Interactions Datasets**  
-   - We performed a left merge on `'id'` from the recipes dataset and `'recipe_id'` from the interactions dataset to associate ratings with recipes.  
+   - We performed a left merge on `id` from the recipes dataset and `recipe_id` from the interactions dataset to associate ratings with recipes.  
 
 2. **Handled Missing Values**  
    - Ratings of 0 were replaced with `NaN`, as they likely represent missing data rather than actual ratings.  
 
 3. **Computed Average Ratings**  
-   - For each recipe, we calculated the average user rating to gain insight into overall reception.  
+   - For each recipe, we calculated the average user rating to gain insight into overall reception. This was added as a column named `rating`.
 
-4. **Extracted and Processed Nutrition Information**  
-   - The `'nutrition'` column was split into individual columns (calories, protein, sodium, etc.).  
+4. **Identified Seafood Recipes**  
+    - A recipe was classified as containing seafood if either:  
+        - Its `tags` column included seafood-related terms (e.g., `'seafood'`, `'crab'`, `'fish'`).  
+        - Its `ingredients` string contained seafood-related items (e.g., `'salmon'`, `'shrimp'`, `'tuna'`).  
+    - We then added an `is_sea` column of boolean values which classified each recipe as either containing or not containing seafood.
 
-5. **Identified Seafood Recipes**  
-   - A recipe was classified as containing seafood if either:  
-     - Its `'tags'` column included seafood-related terms (e.g., `'seafood'`, `'crab'`, `'fish'`).  
-     - Its `'ingredients'` list contained seafood-related items (e.g., `'salmon'`, `'shrimp'`, `'tuna'`).  
+5. **Extracted and Processed Nutrition Information**  
+   - The `nutrition` column was split into individual columns for the relevent values: calories, sodium, protein, saturated fat, and total fat. These columns were named `calories`, `sodium`, `protein`, `satfat`, and `total_fat` respectively.
+   - We then standardized all of the nutrition columns except for the `calories` column. These stanndardized values were used to create a score for 'health' which we defined as $`1-\frac{sodium \times saturated fat}{protein \times total fat}`$
 
-With this cleaned dataset, we are ready to analyze how the presence of seafood correlates with the health scores of recipes.  
+With this cleaned dataset, we are ready to analyze how the presence of seafood correlates with the health scoresand ratings of recipes.
