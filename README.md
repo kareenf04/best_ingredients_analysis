@@ -135,7 +135,7 @@ We further examined whether the missingness in **`description`** is associated w
 
 - **Null Hypothesis:** The missingness of **`description`** does not depend on the **health score** of a recipe.
 - **Alternative Hypothesis:** The missingness of **`description`** does depend on the **health score** of a recipe.
-_Significance Level: 0.05_
+- _Significance Level: 0.05_
 
 A permutation test was performed by comparing the mean health scores of recipes with missing descriptions to those with non-missing descriptions.
 
@@ -182,8 +182,8 @@ To examine whether seafood recipes are healthier than non-seafood recipes, we ra
 
 - **Null Hypothesis:** Seafood recipes are as healthy as non-seafood recipes. Any observed difference in health scores is due to random chance.
 - **Alternative Hypothesis:** Seafood recipes are healthier than non-seafood recipes.
-**Test Statistic:** The difference in median health scores between seafood and non-seafood recipes.
-_Significance Level: 0.05_
+- **Test Statistic:** The difference in median health scores between seafood and non-seafood recipes.
+- _Significance Level: 0.05_
 
 The reason we chose to run a permutation test is because we do not have any information on the population, and we want to check if the two distributions look like they come from the same population.
 
@@ -209,8 +209,9 @@ To investigate whether seafood recipes receive higher ratings than non-seafood r
 
 - **Null Hypothesis:** Seafood recipes are rated as highly as non-seafood recipes. Any observed difference in ratings is due to random chance.
 - **Alternative Hypothesis:** Seafood recipes are rated higher than non-seafood recipes.
-**Test Statistic:** The difference in mean ratings between seafood and non-seafood recipes.
-_Significance Level: 0.05_
+
+- **Test Statistic:** The difference in mean ratings between seafood and non-seafood recipes.
+- _Significance Level: 0.05_
 
 We proposed that people rate seafood recipes differently because people might be concerned with the health benefits related to the recipe. We would like to capture all opinions from users, so we used rating instead of an average rating that factors in taste.
 
@@ -250,6 +251,7 @@ We use three features in our model, selected based on their relevance in our ove
 - `health_score` in quantiles (Quantitative, continuous, transformed using Scikit-learn when creating scores itself)
 - `minutes` (Quantitative, discrete, standardized)
 - `calories` (Quantitative, discrete, not standardized because it depends on the quantity of servings in each recipe)
+
 All three features are quantitative, meaning we did not need to perform categorical encoding. However, we applied quantile transformation to the scores (in previous steps) and standardization to the cooking time (minutes) in the pipeline to ensure comparability across different scales. Calories were left unstandardized since they are dependent on serving sizes and are not directly used in the health score calculation.
 
 After training the model on the training set and evaluating it on the test set, we achieved an **accuracy score** of **0.859**. However, the model achieved an almost perfect accuracy of 0.999 on the training set, indicating _severe overfitting_. This suggests that while the model performs well on seen data, it struggles to generalize to unseen examples. We will address this issue in the next step by implementing strategies to improve generalization, such as tuning hyperparameters.
@@ -280,9 +282,11 @@ To evaluate fairness, we compared the accuracy of the model for recipes in these
 
 - **Null Hypothesis:** Our model is fair. Its accuracy for recipes with more than 70 minutes of preparation time and those with 70 minutes or less is roughly the same, and any differences are du
 - **Alternative Hypothesis:** Our model is unfair. Its accuracy differs for recipes with more than 70 minutes of preparation time compared to those with 70 minutes or less.
-**Test Statistic:** Difference in accuracy between the two groups (accuracy for recipes >70 minutes - accuracy for recipes ≤70 minutes).
-_Observed Test Statistic: 0.0409_
-_Significance Level: 0.05_
+
+- **Test Statistic:** Difference in accuracy between the two groups (accuracy for recipes >70 minutes - accuracy for recipes ≤70 minutes).
+- _Observed Test Statistic: 0.0409_
+
+- _Significance Level: 0.05_
 
 To conduct the permutation test, we binarized the ‘minutes’ column using scikit-learn, then shuffled the ‘minutes’ labels and recomputed the accuracy difference 1000 times. After running the test, we obtained a p-value of 0.0, meaning that in none of the 1000 random shuffles did we observe a difference as extreme as our original test statistic.
 
