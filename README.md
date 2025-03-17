@@ -119,4 +119,3 @@ Interestingly, the graph shows that as the prep time increases the health score 
 ## Assessment of Missingness
 
 Three columns, `date`, `rating`, and `review`, in the initial merged dataset have missing values, so we decided to assess the missingness on the dataframe.
-
