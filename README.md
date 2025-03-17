@@ -91,3 +91,13 @@ For this analysis, we examined the average health score at each average rating f
   height="600"
   frameborder="0"
 ></iframe>
+
+### Some Aggregates
+For this section, we investigated the relationship between the preparation time (in minutes) and the health score of the recipes. First, we created a smaller dataframe, 'less_time' to store the recipes with prep times that are at most 3 hours. We then create 4 columns called `mean`, `median`, `max`, and `min` in which we calculate and store the relevant data for each of the recipes. Lastly we grouped this dataframe by the columns `is_sea` and `minutes`.
+|   | is_sea | minutes | mean  | median | max   | min   |
+|---|--------|---------|-------|--------|-------|-------|
+| 0 | False  | 0       | 78.09 | 78.09  | 78.09 | 78.09 |
+| 1 | False  | 1       | 41.70 | 37.37  | 99.00 | 0.94  |
+| 2 | False  | 2       | 41.79 | 37.37  | 99.10 | 0.94  |
+| 3 | False  | 3       | 40.97 | 37.37  | 99.40 | 0.88  |
+| 4 | False  | 4       | 41.12 | 37.37  | 98.42 | 0.91  |
