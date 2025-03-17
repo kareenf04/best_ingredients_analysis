@@ -228,3 +228,69 @@ After shuffling the is_seafood labels 1000 times and computing the mean rating d
 ></iframe>
 
 **Conclusion:** Since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that seafood recipes are not rated significantly higher than non-seafood recipes, meaning any observed difference could be due to chance. Ratings depend on multiple factors, and while some users may prioritize taste, others may prioritize health benefits. As a result, ratings can vary significantly and may not necessarily reflect whether a recipe contains seafood.
+
+
+## Framing a Prediction Problem
+
+We plan to **predict whether a given recipe contains seafood**, making this a **binary classification problem** since the response variable has two possible values: 0 (non-seafood) or 1 (seafood). The **response variable** is a **nominal categorical variable** because the categories have no inherent order.
+
+We chose the presence of seafood as our response variable because we are studying the correlation between seafood and health benefits in recipes. Understanding whether a recipe contains seafood based on its features is relevant to our study, as we have observed key trends in our exploratory data analysis. Specifically, seafood recipes tend to have a higher average health score than non-seafood recipes within each of the six rating groups (0, 1, 2, 3, 4, 5). Additionally, seafood meals exhibit different distributions of cooking times compared to non-seafood meals, again within each rating category. Lastly, seafood recipes tend to have a higher median health score than their mean health score, suggesting a skewed distribution in health benefits, and, most importantly, the overall health score for seafood recipes is higher than that of non-seafood recipes.
+
+To evaluate our model, we will use **accuracy** because accuracy provides a straightforward and interpretable measure of performance.
+
+The information available at the time of prediction includes all the columns in the rating dataset, as listed in the introduction. We have also created columns for relevant nutritional details, including calories, protein, sodium, saturated fats, and total fats, as well as a score column calculated in previous steps. By ensuring that we only use features available prior to prediction, we maintain the integrity and applicability of our model.
+
+
+## Baseline Model
+
+For our baseline model, we are using a _decision tree classifier_ with unlimited depth and the entropy criterion for splitting. A decision tree is an appropriate choice for our prediction problem because it can handle both quantitative and categorical features, does not require extensive feature scaling, and is interpretable. However, unlimited depth may lead to overfitting, which we observe in our results.
+
+We use three features in our model, selected based on their relevance in our overall investigation topic: health and seafood. Along with the health scores, we included calories since we didn’t use it to calculate the health score but it is still relevant, and minutes since we observed trends and deem it a practical detail. 
+
+- `health_score` in quantiles (Quantitative, continuous, transformed using Scikit-learn when creating scores itself)
+- `minutes` (Quantitative, discrete, standardized)
+- `calories` (Quantitative, discrete, not standardized because it depends on the quantity of servings in each recipe)
+All three features are quantitative, meaning we did not need to perform categorical encoding. However, we applied quantile transformation to the scores (in previous steps) and standardization to the cooking time (minutes) in the pipeline to ensure comparability across different scales. Calories were left unstandardized since they are dependent on serving sizes and are not directly used in the health score calculation.
+
+After training the model on the training set and evaluating it on the test set, we achieved an **accuracy score** of **0.859**. However, the model achieved an almost perfect accuracy of 0.999 on the training set, indicating _severe overfitting_. This suggests that while the model performs well on seen data, it struggles to generalize to unseen examples. We will address this issue in the next step by implementing strategies to improve generalization, such as tuning hyperparameters.
+
+
+## Final Model
+
+For our final model, we made key adjustments to address overfitting and improve predictive accuracy. Initially, we tested various maximum depths (ranging from 1 to 29, including None) for the baseline model and determined that a max depth of 6 provided the best balance between bias and variance. Additionally, we evaluated the importance of our three original features—minutes, score_quantile, and calories—which were found to have importances of 0.13, 0.44, and 0.43, respectively.
+
+From this analysis, we recognized that calories played a significant role in predicting whether a dish contained seafood, highlighting potential flaws in our initial health score metric. This prompted us to incorporate additional nutritional features—sodium, protein, saturated fats, and total fats—to better capture the health benefits of seafood. Furthermore, we explored adding rating, but after testing, we found that it had zero importance in our updated model, confirming its lack of relevance in seafood classification as observed in the graphs we had created. Lastly, we added n_ingredients, as our univariate analysis suggested a meaningful trend related to the complexity of recipes.
+
+To optimize our model, we conducted a grid search to fine-tune hyperparameters, ultimately selecting the following:
+- **Criterion**: Gini
+- **Max Depth**: 6
+- **Min Samples Split**: 500
+Setting a minimum sample split of 500 further mitigated overfitting and ensured our model remained generalizable. As a result, our **new test score** improved to **0.921**, matching the **training score** of **0.921**, indicating a well-balanced model with minimal overfitting.
+
+Interestingly, protein emerged as the most important predictor, followed by saturated fats and minutes. This suggests that seafood's health benefits are strongly associated with its high protein and low saturated fat content. The significance of minutes may reflect the fact that seafood is often consumed raw or requires minimal cooking time compared to other high-protein meals. Additionally, the lower importance of score_quantile indicates that it does not accurately represent the health benefits of seafood. Instead, sodium, protein, saturated fats, and total fats provide a more precise measure of a dish’s nutritional value. Our findings also suggest that the advantages of low saturated fats and high protein in seafood may outweigh the benefits of low sodium and high total fat when compared to other recipes in the dataset.
+
+Overall, these refinements resulted in a significant improvement of approximately **6%** over the baseline model, ensuring both stronger predictive performance and better interpretability of the health benefits associated with seafood dishes.
+
+
+## Fairness Analysis
+
+For our fairness analysis, we split the recipes into two groups based on preparation time: recipes that take more than 70 minutes to prepare and those that take 70 minutes or less. We chose 70 minutes as the threshold because our aggregate graphs showed significant volatility in the health scores of both seafood and non-seafood meals beyond this point. This raised questions about whether the model’s performance varied based on preparation time.
+
+To evaluate fairness, we compared the accuracy of the model for recipes in these two groups. We selected accuracy as our evaluation metric because our model is a classifier predicting whether a recipe contains seafood, and accuracy effectively measures overall correctness.
+
+- **Null Hypothesis:** Our model is fair. Its accuracy for recipes with more than 70 minutes of preparation time and those with 70 minutes or less is roughly the same, and any differences are du
+- **Alternative Hypothesis:** Our model is unfair. Its accuracy differs for recipes with more than 70 minutes of preparation time compared to those with 70 minutes or less.
+**Test Statistic:** Difference in accuracy between the two groups (accuracy for recipes >70 minutes - accuracy for recipes ≤70 minutes).
+_Observed Test Statistic: 0.0409_
+_Significance Level: 0.05_
+
+To conduct the permutation test, we binarized the ‘minutes’ column using scikit-learn, then shuffled the ‘minutes’ labels and recomputed the accuracy difference 1000 times. After running the test, we obtained a p-value of 0.0, meaning that in none of the 1000 random shuffles did we observe a difference as extreme as our original test statistic.
+
+<iframe
+  src="assets/fair.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+**Conclusion**: Since our p-value of 0.0 is less than 0.05, we reject the null hypothesis that our model is fair. This indicates that the model's accuracy is significantly different for recipes taking more than 70 minutes compared to those taking 70 minutes or less. Interestingly, our model performed better on recipes requiring more than 70 minutes. This result aligns with our initial observation that health scores for longer-preparation recipes exhibit extreme volatility. Further analysis is needed to determine why the model achieves higher accuracy for these recipes, which could provide valuable insights into the relationship between preparation time and seafood classification. On observation, while the accuracy score reflected expected changes, this information suggests the use of F1-score for such investigations using imbalanced datasets. 
