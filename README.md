@@ -94,6 +94,7 @@ For this analysis, we examined the average health score at each average rating f
 
 ### Some Aggregates
 For this section, we investigated the relationship between the preparation time (in minutes) and the health score of the recipes. First, we created a smaller dataframe, 'less_time' to store the recipes with prep times that are at most 3 hours. We then create 4 columns called `mean`, `median`, `max`, and `min` in which we calculate and store the relevant data for each of the recipes. Lastly we grouped this dataframe by the columns `is_sea` and `minutes`.
+
 |   | is_sea | minutes | mean  | median | max   | min   |
 |---|--------|---------|-------|--------|-------|-------|
 | 0 | False  | 0       | 78.09 | 78.09  | 78.09 | 78.09 |
@@ -101,3 +102,21 @@ For this section, we investigated the relationship between the preparation time 
 | 2 | False  | 2       | 41.79 | 37.37  | 99.10 | 0.94  |
 | 3 | False  | 3       | 40.97 | 37.37  | 99.40 | 0.88  |
 | 4 | False  | 4       | 41.12 | 37.37  | 98.42 | 0.91  |
+
+Interestingly, the graph shows that as the prep time increases the health score of a recipe fluctuates more and more regardless of wether a recipe contains seafood or not. Also, we see that in recipes with seafood the median is consistently greater than the mean suggesting that a few low-scoring seafood recipes may be pulling the mean down while the majority of seafood recipes tend to have relatively high health scores. This right-skewed distribution indicates that while most seafood recipes are considered healthy, there are some exceptions with significantly lower health scores, possibly due to preparation methods that take longer or additional ingredients.
+<iframe
+  src="assets/agg_sea.html"
+  width="800"
+  height="600"
+  frameborder="0"
+  src="assets/agg_notsea.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+## Assessment of Missingness
+
+Three columns, `date`, `rating`, and `review`, in the initial merged dataset have missing values, so we decided to assess the missingness on the dataframe.
+
