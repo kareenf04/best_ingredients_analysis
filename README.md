@@ -119,14 +119,6 @@ Interestingly, the graph shows that as the prep time increases the health score 
 
 ## Assessment of Missingness  
 
-The columns`description`, and `review`, in the initial merged dataset have missing values, so we decided to assess the missingness in the dataframe.  
-
-### NMAR Analysis  
-
-We believe that the missingness of the `review` column is **Not Missing At Random (NMAR)**. This is because users may be less likely to leave a review if they feel indifferent about a recipe, as they might not have strong opinions to share. Reviews are often provided when users either strongly like or dislike a recipe, meaning that the absence of a review could indicate neutrality rather than a systematic factor tied to observable variables in the dataset.  
-
-## Assessment of Missingness  
-
 Two columns, **`description`** and **`review`**, in the initial merged dataset contain missing values. To better understand the nature of these missing entries, we conducted an analysis to determine whether the missingness follows any systematic patterns.
 
 ### NMAR Analysis  
