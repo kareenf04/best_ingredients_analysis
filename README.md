@@ -117,6 +117,38 @@ Interestingly, the graph shows that as the prep time increases the health score 
 ></iframe>
 
 
-## Assessment of Missingness
+## Assessment of Missingness  
 
-Three columns, `date`, `rating`, and `review`, in the initial merged dataset have missing values, so we decided to assess the missingness on the dataframe.
+Three columns, `date`, `rating`, and `review`, in the initial merged dataset have missing values, so we decided to assess the missingness in the dataframe.  
+
+### NMAR Analysis  
+
+We believe that the missingness of the `review` column is **Not Missing At Random (NMAR)**. This is because users may be less likely to leave a review if they feel indifferent about a recipe, as they might not have strong opinions to share. Reviews are often provided when users either strongly like or dislike a recipe, meaning that the absence of a review could indicate neutrality rather than a systematic factor tied to observable variables in the dataset.  
+
+### Missingness Dependency  
+
+To determine whether the missingness of `rating` depends on other variables in the dataset, we examined its relationship with `health_score` and `n_ingredients`, which represent the recipe’s healthiness and complexity, respectively.  
+
+#### Health Score and Rating  
+
+- **Null Hypothesis:** The missingness of `rating` does not depend on the `health_score` of the recipe.  
+- **Alternative Hypothesis:** The missingness of `rating` does depend on the `health_score` of the recipe.  
+- **Test Statistic:** The absolute difference in mean health scores between recipes with and without missing ratings.  
+- **Significance Level:** 0.05  
+
+To test this, we ran a **permutation test** by shuffling the missingness of `rating` 1000 times and computing the mean differences in each iteration.  
+
+The observed statistic was **0.0071**, shown by the red vertical line in the graph below. Since the **p-value (0.012)** is **less than** our significance level (0.05), we **reject the null hypothesis**, suggesting that the missingness of `rating` is dependent on `health_score`. This could indicate that users are less likely to rate recipes with extreme health scores—either very high or very low.  
+
+#### Number of Ingredients and Rating  
+
+- **Null Hypothesis:** The missingness of `rating` does not depend on `n_ingredients` (the number of ingredients in the recipe).  
+- **Alternative Hypothesis:** The missingness of `rating` depends on `n_ingredients`.  
+- **Test Statistic:** The absolute difference in mean `n_ingredients` between recipes with and without missing ratings.  
+- **Significance Level:** 0.05  
+
+Due to the presence of outliers in `n_ingredients`, we adjusted the scale for better visualization. After conducting a **permutation test**, we obtained an **observed statistic of 1.76**, with a **p-value of 0.091**. Since **p > 0.05**, we **fail to reject the null hypothesis**, meaning the missingness of `rating` does not appear to depend on the number of ingredients in a recipe.  
+
+### Conclusion  
+
+Our analysis suggests that the missingness of `rating` is related to **health scores** but not to the **number of ingredients**. This implies that users may be more hesitant to rate recipes that are extremely healthy or unhealthy, possibly due to uncertainty about how to evaluate their healthiness. Further investigation could explore whether user preferences or dietary concerns influence this pattern.  
