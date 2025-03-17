@@ -39,7 +39,7 @@ The dataset consists of two main files:
   - `recipe_id`: ID of the rated recipe  
   - `rating`: The score given by the user (ranging from 1 to 5)  
 
-### Data Cleaning and Preparation  
+## Data Cleaning and Exploratory Data Analysis  
 
 To prepare the data for analysis, we followed these steps:  
 
@@ -64,7 +64,7 @@ To prepare the data for analysis, we followed these steps:
 
 The first few rows of this cleaned DataFrame are shown below, in which we have selected the most relevant columns to our analysis.
 
-| id     | name                                  | minutes | tags                                              | n_ingredients | rating | calories | sodium | protein | satfat | total_fat | health_score |
+| id     | name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | minutes | tags                                              | n_ingredients | rating | calories | sodium | protein | satfat | total_fat | health_score |
 |--:-----|-:-------------------------------------|--:------|-:-------------------------------------------------|--:------------|--:-----|--:-------|--:-----|--:------|--:-----|--:--------|--:-----------|
 | 275022 | impossible macaroni and cheese pie    | 50      | ['60-minutes-or-less', 'time-to-make', 'course... | 7             | 3.0    | 386.1    | -0.02  | 0.11    | 0.11   | 0.02      | 2.08         |
 | 275022 | impossible rhubarb pie                | 55      | ['60-minutes-or-less', 'time-to-make', 'course... | 8             | 3.0    | 377.1    | -0.34  | -0.31   | -0.07  | -0.24     | 0.69         |
@@ -73,3 +73,6 @@ The first few rows of this cleaned DataFrame are shown below, in which we have s
 | 275022 | midori poached pears                  | 25      | ['lactose', '30-minutes-or-less', 'time-to-mak... | 9             | 5.0    | 386.9    | -0.72  | -0.49   | -0.23  | -0.53     | 0.35         |
 
 With this cleaned dataset, we are ready to analyze how the presence of seafood correlates with the health scoresand ratings of recipes.
+
+### Univariate Analysis
+
