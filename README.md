@@ -127,34 +127,46 @@ We suspect that the missingness of the **`review`** column is **Not Missing At R
 
 ### Missingness Dependency  
 
-We further examined whether the missingness in **`description`** or **`review`** is associated with other variables in our dataset, specifically with:
+We further examined whether the missingness in **`description`** is associated with other variables in our dataset, specifically with:
 - **`is_sea`**: a boolean indicator of whether the recipe contains seafood.
 - **`health_score`**: the computed health score of a recipe.
+
+#### Health Score and Missing Descriptions
+
+- **Null Hypothesis:** The missingness of **`description`** does not depend on the **health score** of a recipe.
+- **Alternative Hypothesis:** The missingness of **`description`** does depend on the **health score** of a recipe.
+
+A permutation test was performed by comparing the mean health scores of recipes with missing descriptions to those with non-missing descriptions.
+
+<iframe
+  src="assets/missing1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+- **Observed difference:** 0.6965 
+- **p-value:** 0.515
+
+Since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that the health score of a recipe does not significantly influence whether its description is missing.
 
 #### Seafood and Missing Descriptions
 
 - **Null Hypothesis:** The missingness of **`description`** does not depend on whether a recipe contains seafood.
-- **Alternative Hypothesis:** The missingness of **`description`** does depend on whether a recipe contains seafood.
+- **Alternative Hypothesis:** The missingness of **`description`** depends on whether a recipe contains seafood.
 
-A permutation test was conducted by shuffling the missingness of **`description`** and comparing the proportion of missing values between seafood and non-seafood recipes.
+Another permutation test was conducted by shuffling the missingness of **`description`** and comparing the proportion of missing values between seafood and non-seafood recipes.
 
-- **Observed difference:** 0.0072  
-- **p-value:** 0.41
+<iframe
+  src="assets/missing2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
-Since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that the presence of seafood in a recipe does not significantly influence whether its description is missing.
+- **Observed difference:** 0.0002 
+- **p-value:** 0.6612
 
-#### Health Score and Missing Reviews
+Again, since the p-value is greater than 0.05, we fail to reject the null hypothesis. This suggests that the presence of seafood in a recipe does not significantly influence whether its description is missing.
 
-- **Null Hypothesis:** The missingness of **`review`** does not depend on the **health score** of a recipe.
-- **Alternative Hypothesis:** The missingness of **`review`** does depend on the **health score** of a recipe.
-
-Another permutation test was performed by comparing the mean health scores of recipes with missing reviews to those with non-missing reviews.
-
-- **Observed difference:** 0.015  
-- **p-value:** 0.02
-
-Since the p-value is less than 0.05, we reject the null hypothesis. This indicates that the missingness of **`review`** is dependent on the health score of a recipe. One possible explanation is that healthier recipes might receive fewer reviews if users feel less compelled to comment on recipes they perceive as straightforward or unremarkable in terms of taste or impact.
-
-### Conclusion
-
-Our analysis shows that while missing **descriptions** appear to be random with respect to seafood presence, the missingness of **reviews** is significantly related to a recipe's health score. This finding suggests that healthier recipes may be less frequently reviewed, potentially due to lower emotional engagement from users. Future investigations could explore additional factors, such as recipe complexity or ingredient variety, to further understand these patterns.
+Our analysis shows that the missing of **descriptions** appears to be random with respect to seafood presence and health score.
