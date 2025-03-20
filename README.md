@@ -219,7 +219,7 @@ For the test statistic, we chose the difference in mean of the ratings of the tw
 
 We chose a permutation test because we do not assume normality in ratings and want to determine if the observed differences are due to random variation. Additionally, we dropped NaN ratings because they represented recipes that had no recorded ratings. Treating NaN as 0 would have skewed the analysis, introducing artificial outliers and misrepresenting the actual distribution of ratings.
 
-After shuffling the is_seafood labels 1000 times and computing the mean rating difference, we obtained a p-value of 0.171.
+After shuffling the is_seafood labels 1000 times and computing the mean rating difference, we obtained a **p-value** of **0.063**.
 
 <iframe
   src="assets/hyp2.html"
